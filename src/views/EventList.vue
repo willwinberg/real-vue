@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1>Event listing</h1>
-    <EventCard v-for="event in events" :key="event.id" :event="event" />
+    <h1>Event for {{ user.user.name }}</h1>
+    <EventCard v-for="event in event.events" :key="event.id" :event="event" />
     <template v-if="page != 1">
       <router-link
         :to="{ name: 'event-list', query: { page: page - 1 } }"
@@ -35,7 +35,7 @@ export default {
   //   }
   // },
   created() {
-    this.$store.dispatch('fetchEvents', {
+    this.$store.dispatch('event/fetchEvents', {
       perPage: 3,
       page: this.page
     }) // call action from inside created lifecycle hook
@@ -45,9 +45,9 @@ export default {
       return parseInt(this.$route.query.page) || 1 // this works in js :]
     },
     eventsTotal() {
-      return this.eventsTotal
+      return this.event.eventsTotal
     },
-    ...mapState(['events', 'eventsTotal']) // gives access to state for events to be printed above
+    ...mapState(['event', 'user']) // gives access to state for events to be printed above
   }
 }
 </script>
