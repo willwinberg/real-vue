@@ -30,7 +30,7 @@ export const actions = {
         commit('ADD_EVENT', event)
         const notification = {
           type: 'success',
-          message: `Event posted sccussfully: ${event.message}`
+          message: 'Event posted sccussfully'
         }
         dispatch('notification/add', notification, { root: true })
       })
