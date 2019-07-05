@@ -6,9 +6,10 @@ import EventShow from './views/EventShow.vue'
 // import User from './views/User.vue'
 import NProgress from 'nprogress'
 import store from '@/store/store'
-import NotFound from '@/components/NotFound'
+import NotFound from '@/views/NotFound'
 
-import NetworkIssue from '@/components/NetworkIssue'
+import NetworkIssue from '@/views/NetworkIssue'
+import Example from '@/views/Example'
 
 Vue.use(Router)
 
@@ -47,6 +48,11 @@ const router = new Router({
       }
     },
     {
+      path: '/example',
+      name: 'example',
+      component: Example
+    },
+    {
       path: '/event/create',
       name: 'event-create',
       component: EventCreate
@@ -76,9 +82,8 @@ router.beforeEach((routeTo, routeFrom, next) => {
   next()
 })
 
-router.afterEach((routeTo, routeFrom, next) => {
+router.afterEach(() => {
   NProgress.done()
-  next()
 })
 
 export default router
