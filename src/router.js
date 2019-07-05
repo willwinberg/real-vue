@@ -8,6 +8,8 @@ import NProgress from 'nprogress'
 import store from '@/store/store'
 import NotFound from '@/components/NotFound'
 
+import NetworkIssue from '@/components/NetworkIssue'
+
 Vue.use(Router)
 
 const router = new Router({
@@ -27,11 +29,21 @@ const router = new Router({
       props: true, // because true --->
       // does not display formatting until data is fetched
       beforeEnter(routeTo, routeFrom, next) {
-        store.dispatch('event/fetchEvent', routeTo.params.id).then(event => {
-          // ---> if we have param that matches name as prop it will be sent as prop
-          routeTo.params.event = event
-          next()
-        })
+        store
+          .dispatch('event/fetchEvent', routeTo.params.id)
+          .then(event => {
+            // ---> if we have param that matches name as prop it will be sent as prop
+            routeTo.params.event = event
+            next()
+          })
+          // on error, redirect to 404 passing in name of missing resource
+          .catch(error => {
+            if (error.response && error.response.status == 404) {
+              next({ name: '404', params: { resource: 'event' } })
+            } else {
+              next({ name: 'network-issue' })
+            }
+          })
       }
     },
     {
@@ -42,11 +54,18 @@ const router = new Router({
     {
       path: '/404',
       name: '404',
-      component: NotFound
+      component: NotFound,
+      props: true
+    },
+    {
+      path: '/network-issue',
+      name: 'network-issue',
+      component: NetworkIssue
+      // props: true
     },
     {
       path: '*',
-      redirect: { name: '404' }
+      redirect: { name: '404', params: { resource: 'page' } }
     }
     // { path: '*', component: NotFoundPage }
   ]

@@ -59,25 +59,20 @@ export const actions = {
         dispatch('notification/add', notification, { root: true })
       })
   },
-  fetchEvent({ commit, getters, dispatch }, id) {
+  fetchEvent({ commit, getters, state }, id) {
+    if (id == state.event.id) {
+      return state.event
+    }
     let event = getters.getEventById(id) // so we're do doing more api calls than necessary
     if (event) {
       commit('SET_EVENT', event)
       return event
     } else {
       // must be returned so then will work in router
-      return EventService.getEvent(id)
-        .then(response => {
-          commit('SET_EVENT', response.data)
-          return response.data
-        })
-        .catch(error => {
-          const notification = {
-            type: 'error',
-            message: `There was a problem feting event: ${error.message}`
-          }
-          dispatch('notification/add', notification, { root: true })
-        })
+      return EventService.getEvent(id).then(response => {
+        commit('SET_EVENT', response.data)
+        return response.data
+      })
     }
   }
 }
