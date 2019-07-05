@@ -12,17 +12,9 @@
 </template>
 
 <script>
+import { formFieldMixin } from '../mixins/formFieldMixin'
 export default {
-  inheritAttrs: false,
-  props: {
-    label: {
-      type: String,
-      default: ''
-    },
-    value: {
-      type: [String, Number]
-    }
-  },
+  mixins: [formFieldMixin],
   computed: {
     // this is so v-on and @input do not conflict
     listeners() {
@@ -31,13 +23,6 @@ export default {
         input: this.updateValue
       }
     }
-  },
-  methods: {
-    updateValue(event) {
-      this.$emit('input', event.target.value)
-    }
   }
 }
 </script>
-
-<style scoped></style>
