@@ -13,11 +13,13 @@ export default new Vuex.Store({
     event,
     notification
   },
-  categories: [
-    'sustainability',
-    'nature',
-    'animal welfare',
-    'housing',
-    'education'
-  ]
+  state: {
+    categories: [
+      'sustainability',
+      'nature',
+      'animal welfare',
+      'housing',
+      'education'
+    ]
+  }
 })

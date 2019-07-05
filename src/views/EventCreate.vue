@@ -2,10 +2,12 @@
   <div>
     <h1>Event Create</h1>
     <form @submit.prevent="createEvent">
-      <label>Select a category</label>
-      <select v-model="event.category">
-        <option v-for="cat in categories" :key="cat">{{ cat }}</option>
-      </select>
+      <base-select
+        label="Select a Category"
+        :options="categories"
+        v-model="event.category"
+        class="field"
+      />
       <h3>Name & describe your event</h3>
       <base-input
         label="Title"
@@ -31,22 +33,21 @@
         <label>Date</label>
         <datepicker v-model="event.date" placeholder="Select a date" />
       </div>
-      <div class="field">
-        <label>Select a time</label>
-        <select v-model="event.time">
-          <option v-for="time in times" :key="time">{{ time }}</option>
-        </select>
-      </div>
-      <input type="submit" class="button -fill-gradient" value="Submit" />
+      <base-select
+        label="Select a Time"
+        :options="times"
+        v-model="event.time"
+        class="field"
+      />
+      <!-- <input type="submit" class="button -fill-gradient" value="Submit" /> -->
+      <base-button type="submit" buttonClass="-fill-gradient"
+        >Submit</base-button
+      >
     </form>
-    <!-- <p>Event by, {{ user.id }}</p> -->
-    <!-- <p>There are {{ categoriesLength }} categories</p> -->
-    <!-- <p>{{ getEventById(2) }}</p> -->
   </div>
 </template>
 
 <script>
-// import { mapState, mapGetters } from 'vuex'
 import Datepicker from 'vuejs-datepicker'
 import NProgress from 'nprogress'
 
