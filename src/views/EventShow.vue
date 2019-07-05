@@ -31,23 +31,42 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+// import { mapState } from 'vuex' // removing vuex from component
+// import NProgress from 'nprogress'
+// import store from '@/store/store' // done in store now
 // import EventService from '@/services/EventService.js' // in vuex now
 
 export default {
-  props: ['id'],
+  props: {
+    event: {
+      type: Object,
+      required: true
+    }
+  }
+  // in-component route guuard lifecycle hook, feature of vue router
+  // done glabally now in router.js
+  // beforeRouteEnter(routeTo, routeFrom, next) {
+  //   NProgress.start()
+  //   store.dispatch('event/fetchEvent', routeTo.params.id).then(() => {
+  //     NProgress.done()
+  //     next() // continue to navigation
+  //   })
+  // },
   // data() {
   //   return {
   //     event: {}
   //   }
   // },
-  created() {
-    this.fetchEvent(this.id)
-  },
-  computed: mapState({
-    event: state => state.event.event
-  }),
-  methods: mapActions('event', ['fetchEvent'])
+  // no longer needed c8z of beforeRouteEnter -- in router
+  // created() {
+  //   this.fetchEvent(this.id)
+  // },
+  // removing vuex from component
+  // computed: mapState({
+  //   event: state => state.event.event
+  // })
+  // no longer needed cuz of beforeRouteEnter -- inrouter
+  // methods: mapActions('event', ['fetchEvent'])
 }
 </script>
 

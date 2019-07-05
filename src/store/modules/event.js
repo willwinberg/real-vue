@@ -5,7 +5,8 @@ export const namespaced = true
 export const state = {
   events: [],
   eventsTotal: 0,
-  event: {}
+  event: {},
+  perPage: 3
 }
 
 export const mutations = {
@@ -43,9 +44,9 @@ export const actions = {
         throw error
       })
   },
-  fetchEvents({ commit, dispatch }, { perPage, page }) {
+  fetchEvents({ commit, dispatch, state }, { page }) {
     //why {}s? payload can be sigle var or object
-    EventService.getEvents(perPage, page)
+    return EventService.getEvents(state.perPage, page)
       .then(response => {
         commit('SET_EVENTS_TOTAL', parseInt(response.headers['x-total-count']))
         commit('SET_EVENTS', response.data)
@@ -62,10 +63,13 @@ export const actions = {
     let event = getters.getEventById(id) // so we're do doing more api calls than necessary
     if (event) {
       commit('SET_EVENT', event)
+      return event
     } else {
-      EventService.getEvent(id)
+      // must be returned so then will work in router
+      return EventService.getEvent(id)
         .then(response => {
           commit('SET_EVENT', response.data)
+          return response.data
         })
         .catch(error => {
           const notification = {
